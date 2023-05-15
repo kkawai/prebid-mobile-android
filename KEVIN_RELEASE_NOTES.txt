@@ -1,0 +1,14 @@
+LISTEN TO MEEE:  THIS REPO WAS CLONED FROM MY OWN FORK OF PREBID-MOBILE-ANDROID!!!!!!
+
+Remember to copy local.properties which has the credentials
+
+git config --get remote.origin.url
+
+https://github.com/kkawai/prebid-mobile-android
+
+
+Notes:
+  make your changes
+  update version in artifact.gradle
+  omsk-android-1.3.34.1.jar was manually placed in PrebidMobile-core\libs
+  .\gradlew PrebidMobile:assembleRelease artifactoryPublish

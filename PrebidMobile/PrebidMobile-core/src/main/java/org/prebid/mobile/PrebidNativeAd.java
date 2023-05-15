@@ -23,9 +23,6 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +31,9 @@ import org.prebid.mobile.rendering.utils.helpers.ExternalViewerUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class PrebidNativeAd {
 
@@ -63,7 +63,13 @@ public class PrebidNativeAd {
                 JSONObject details = new JSONObject(content);
                 String admStr = details.getString("adm");
                 JSONObject adm = new JSONObject(admStr);
-                JSONArray asset = adm.getJSONArray("assets");
+                JSONArray assets;
+                if (adm.has("native")) {
+                    JSONObject _native = adm.getJSONObject("native");
+                    assets = _native.getJSONArray("assets");
+                } else {
+                    assets = adm.getJSONArray("assets");
+                }
                 final PrebidNativeAd ad = new PrebidNativeAd();
                 CacheManager.registerCacheExpiryListener(cacheId, new CacheManager.CacheExpiryListener() {
                     @Override
@@ -82,8 +88,8 @@ public class PrebidNativeAd {
                         }
                     }
                 });
-                for (int i = 0; i < asset.length(); i++) {
-                    JSONObject adObject = asset.getJSONObject(i);
+                for (int i = 0; i < assets.length(); i++) {
+                    JSONObject adObject = assets.getJSONObject(i);
                     if (adObject.has("title")) {
                         JSONObject title = adObject.getJSONObject("title");
                         if (title.has("text")) {

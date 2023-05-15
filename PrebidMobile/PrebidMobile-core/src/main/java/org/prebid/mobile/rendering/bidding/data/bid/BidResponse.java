@@ -16,13 +16,8 @@
 
 package org.prebid.mobile.rendering.bidding.data.bid;
 
-import static org.prebid.mobile.api.rendering.pluginrenderer.PrebidMobilePluginRegister.PLUGIN_RENDERER_KEY;
-
 import android.content.Context;
 import android.util.Pair;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,6 +33,11 @@ import org.prebid.mobile.rendering.utils.helpers.Utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import static org.prebid.mobile.api.rendering.pluginrenderer.PrebidMobilePluginRegister.PLUGIN_RENDERER_KEY;
 
 public class BidResponse {
     private final static String TAG = BidResponse.class.getSimpleName();
@@ -241,9 +241,10 @@ public class BidResponse {
             return false;
         }
         HashMap<String, String> targeting = prebid.getTargeting();
-        boolean result = targeting.containsKey("hb_pb") && targeting.containsKey("hb_bidder");
+        boolean result = (targeting.containsKey("hb_pb") && targeting.containsKey("hb_bidder")) ||
+                (targeting.containsKey("fs_pb") && targeting.containsKey("fs_bidder"));
         if (usesCache) {
-            result = result && targeting.containsKey("hb_cache_id");
+            result = result && (targeting.containsKey("hb_cache_id") || targeting.containsKey("fs_cache_id"));
         }
         return result;
     }

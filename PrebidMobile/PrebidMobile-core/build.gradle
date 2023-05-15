@@ -1,6 +1,7 @@
 apply from: '../android.gradle'
 apply from: '../publisher.gradle'
 apply from: '../tests.gradle'
+apply from: '../artifact.gradle'
 
 android {
     def getGitHash = { ->
@@ -19,8 +20,17 @@ android {
     }
 }
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
-    implementation project(":omsdk-android")
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //implementation project(":omsdk-android")
 
     implementation 'androidx.annotation:annotation:1.5.0'
 

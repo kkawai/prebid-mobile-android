@@ -1,0 +1,59 @@
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+project(':' + project.name) {
+
+    //artifactoryPublish.dependsOn('build')
+    artifactoryPublish.dependsOn('assembleRelease')
+
+    publishing {
+
+        publications {
+
+            aar(MavenPublication) {
+                groupId = 'com.freestar.android.ads.prebid'
+                artifactId = 'freestar-prebid-core'
+                version = '2.1.0.1'
+                artifact("$buildDir/outputs/aar/" + 'PrebidMobile-core' + '-release.aar')
+            }
+
+        }
+
+    }
+
+    artifactoryPublish {
+        publications(publishing.publications.aar)
+    }
+}
+
+
+artifactory {
+    contextUrl = properties.getProperty("artifactory_contextUrl")
+    publish {
+        repository {
+            repoKey = 'freestar-mediation-android-sdk'
+            // The Artifactory repository key to publish to
+            username = properties.getProperty("artifactory_user")
+            password = properties.getProperty("artifactory_password")
+            maven = true
+        }
+        defaults {
+
+            publications(':' + project.name, 'aar')
+            publishArtifacts = true
+            publishPom = true
+
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'libs-release'
+            username = properties.getProperty("artifactory_user")
+            password = properties.getProperty("artifactory_password")
+            maven = true
+        }
+    }
+}

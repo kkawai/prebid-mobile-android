@@ -23,9 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.Size;
+
 import org.prebid.mobile.CacheManager;
 import org.prebid.mobile.LogUtil;
 import org.prebid.mobile.PrebidNativeAd;
@@ -33,15 +31,27 @@ import org.prebid.mobile.PrebidNativeAdListener;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.Size;
+
 public final class AdViewUtils {
+
+    public static void setHbSizePrefix(String prefix) {
+        SIZE_OBJECT_REGEX_EXPRESSION = prefix + "\\W+" + SIZE_VALUE_REGEX_EXPRESSION;
+    }
 
     private static final String INNER_HTML_SCRIPT = "document.body.innerHTML";
     private static final String SIZE_VALUE_REGEX_EXPRESSION = "[0-9]+x[0-9]+";
-    private static final String SIZE_OBJECT_REGEX_EXPRESSION = "hb_size\\W+" + SIZE_VALUE_REGEX_EXPRESSION; //"hb_size\\W+[0-9]+x[0-9]+"
+    private static String SIZE_OBJECT_REGEX_EXPRESSION = "hb_size\\W+" + SIZE_VALUE_REGEX_EXPRESSION; //"hb_size\\W+[0-9]+x[0-9]+"
 
     private static final String GAM_VIEW_CLASS = "com.google.android.gms.ads.doubleclick.PublisherAdView";
     private static final String GAM_VIEW_CLASS_2 = "com.google.android.gms.ads.admanager.AdManagerAdView";
