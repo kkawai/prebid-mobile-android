@@ -16,7 +16,7 @@ project(':' + project.name) {
             aar(MavenPublication) {
                 groupId = 'com.freestar.android.ads.prebid'
                 artifactId = 'freestar-prebid-core'
-                version = '2.1.0.1'
+                version = '2.1.0.2'
                 artifact("$buildDir/outputs/aar/" + 'PrebidMobile-core' + '-release.aar')
             }
 
