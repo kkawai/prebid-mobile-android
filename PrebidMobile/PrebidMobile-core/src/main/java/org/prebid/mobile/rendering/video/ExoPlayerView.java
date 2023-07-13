@@ -105,10 +105,19 @@ public class ExoPlayerView extends PlayerView implements VideoPlayerView {
     @Override
     public void start(float initialVolume) {
         LogUtil.debug(TAG, "start() called");
-        initLayout();
-        initPlayer(initialVolume);
-        preparePlayer(true);
-        trackInitialStartEvent();
+        try {
+            initLayout();
+            initPlayer(initialVolume);
+            preparePlayer(true);
+            trackInitialStartEvent();
+        } catch (Throwable t) {
+            LogUtil.error(TAG, "start failed", t);
+            try {
+                eventListener.onPlayerError(new PlaybackException("start failed", null, -2));
+            }catch (Throwable t1) {
+                LogUtil.error(TAG, "failed to invoke onPlayerError", t1);
+            }
+        }
     }
 
     @Override
