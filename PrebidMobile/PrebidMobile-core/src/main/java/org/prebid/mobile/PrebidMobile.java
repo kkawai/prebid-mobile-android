@@ -90,7 +90,7 @@ public class PrebidMobile {
     /**
      * Tested Google SDK version.
      */
-    public static final String TESTED_GOOGLE_SDK_VERSION = "22.1.0";
+    public static final String TESTED_GOOGLE_SDK_VERSION = "22.2.0";
 
     /**
      * Please use {@link PrebidMobile#setLogLevel(LogLevel)}, this field will become private in next releases.
@@ -124,6 +124,8 @@ public class PrebidMobile {
     private static final Map<String, String> storedBidResponses = new LinkedHashMap<>();
     private static List<ExternalUserId> externalUserIds = new ArrayList<>();
     private static HashMap<String, String> customHeaders = new HashMap<>();
+    private static boolean includeWinners = false;
+    private static boolean includeBidderKeys = false;
 
     private PrebidMobile() {
     }
@@ -235,6 +237,7 @@ public class PrebidMobile {
         SdkInitializer.init(context, listener);
     }
 
+    @Deprecated
     public static Context getApplicationContext() {
         return PrebidContextHolder.getContext();
     }
@@ -357,6 +360,21 @@ public class PrebidMobile {
     @Nullable
     public static String getCustomStatusEndpoint() {
         return customStatusEndpoint;
+    }
+    public static void setIncludeWinnersFlag(boolean includeWinners) {
+        PrebidMobile.includeWinners = includeWinners;
+    }
+
+    public static boolean getIncludeWinnersFlag() {
+        return PrebidMobile.includeWinners;
+    }
+
+    public static boolean setIncludeBidderKeysFlag(boolean includeBidderKeys) {
+        return PrebidMobile.includeBidderKeys = includeBidderKeys;
+    }
+
+    public static boolean getIncludeBidderKeysFlag() {
+        return PrebidMobile.includeBidderKeys;
     }
 
     // TODO not ready, wait for rendering delegation full release

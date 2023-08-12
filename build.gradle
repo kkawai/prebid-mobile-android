@@ -1,5 +1,5 @@
 ext {
-    prebidSdkVersionName = "2.1.0"
+    prebidSdkVersionName = "2.1.1"
     prebidSdkMinVersion = 19
     prebidSdkTargetVersion = 32
     prebidSdkCompileVersion = 32
@@ -14,19 +14,18 @@ ext {
 buildscript {
     ext.kotlin_version = '1.6.21'
     repositories {
-        jcenter()
         google()
+        jcenter() //kkawai, needed for jfrog artifactory
         mavenCentral()
     }
 
     dependencies {
-
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'  //jfrog publish
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'  //jfrog publish
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.21.0'//jfrog publish
-
         classpath 'com.android.tools.build:gradle:7.3.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'  //kkawai, needed for jfrog artifactory
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'  //kkawai, needed for jfrog artifactory
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.21.0'//kkawai, needed for jfrog artifactory
     }
 }
 
