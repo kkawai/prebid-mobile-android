@@ -40,6 +40,7 @@ public class Prebid {
 
     private Cache cache;
     private HashMap<String, String> targeting = new HashMap<>();
+    private HashMap<String, String> meta = new HashMap<>();
     private String type;
     private String winEventUrl;
     private String impEventUrl;
@@ -58,6 +59,10 @@ public class Prebid {
         return targeting;
     }
 
+    public HashMap<String, String> getMeta() {
+        return meta;
+    }
+
     public String getType() {
         return type;
     }
@@ -71,6 +76,7 @@ public class Prebid {
         prebid.type = jsonObject.optString("type");
         parseEvents(prebid, jsonObject.optJSONObject("events"));
         toHashMap(prebid.targeting, jsonObject.optJSONObject("targeting"));
+        toHashMap(prebid.meta, jsonObject.optJSONObject("meta"));
 
         return prebid;
     }
@@ -121,9 +127,19 @@ public class Prebid {
         }
 
         JSONObject targeting = new JSONObject();
+
         if (config.isOriginalAdUnit() && config.getAdFormats().size() > 1) {
             Utils.addValue(targeting, "includeformat", "true");
         }
+
+        if(PrebidMobile.getIncludeWinnersFlag()){
+            Utils.addValue(targeting, "includewinners", "true");
+        }
+
+        if(PrebidMobile.getIncludeBidderKeysFlag()){
+            Utils.addValue(targeting, "includebidderkeys", "true");
+        }
+
         Utils.addValue(prebid, "targeting", targeting);
 
         if (!TargetingParams.getAccessControlList().isEmpty()) {
