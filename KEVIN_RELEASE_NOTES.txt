@@ -10,5 +10,5 @@ https://github.com/kkawai/prebid-mobile-android
 Notes:
   make your changes
   update version in artifact.gradle
-  omsk-android-1.3.34.1.jar was manually placed in PrebidMobile-core\libs
+  omsk-android-1.4.1.jar was manually placed in PrebidMobile-core\libs
   .\gradlew PrebidMobile:assembleRelease artifactoryPublish

@@ -30,7 +30,7 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    //implementation project(":omsdk-android")
+    //implementation project(":omsdk-android") //kkawai
 
     implementation 'androidx.annotation:annotation:1.5.0'
 

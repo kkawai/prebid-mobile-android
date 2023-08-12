@@ -37,8 +37,6 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import static org.prebid.mobile.api.rendering.pluginrenderer.PrebidMobilePluginRegister.PLUGIN_RENDERER_KEY;
-
 public class BidResponse {
     private final static String TAG = BidResponse.class.getSimpleName();
     public static final String KEY_CACHE_ID = "hb_cache_id_local";

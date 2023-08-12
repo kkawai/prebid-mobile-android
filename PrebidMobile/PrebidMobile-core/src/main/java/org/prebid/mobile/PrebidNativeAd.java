@@ -68,8 +68,9 @@ public class PrebidNativeAd {
                 String admStr = details.getString("adm");
                 JSONObject adm = new JSONObject(admStr);
                 JSONArray assets;
+                JSONObject _native = null;
                 if (adm.has("native")) {
-                    JSONObject _native = adm.getJSONObject("native");
+                    _native = adm.getJSONObject("native");
                     assets = _native.getJSONArray("assets");
                 } else {
                     assets = adm.getJSONArray("assets");
@@ -136,8 +137,13 @@ public class PrebidNativeAd {
                     }
                 }
 
+                JSONObject link = null;
                 if (adm.has("link")) {
-                    JSONObject link = adm.getJSONObject("link");
+                    link = adm.getJSONObject("link");
+                } else if (_native != null && _native.has("link")) {
+                    link = _native.getJSONObject("link");
+                }
+                if (link != null) {
                     if (link.has("url")) {
                         String url = link.getString("url");
                         if (url.contains("{AUCTION_PRICE}") && details.has("price")) {
@@ -161,19 +167,22 @@ public class PrebidNativeAd {
                     }
                 }
 
+                JSONArray eventtrackers = null;
                 if (adm.has("eventtrackers")) {
-                    JSONArray eventtrackers = adm.getJSONArray("eventtrackers");
-                    if (eventtrackers.length() > 0) {
-                        ad.imp_trackers = new ArrayList<>();
-                        for (int count = 0; count < eventtrackers.length(); count++) {
-                            JSONObject eventtracker = eventtrackers.getJSONObject(count);
-                            if (eventtracker.has("url")) {
-                                String impUrl = eventtracker.getString("url");
-                                if (impUrl.contains("{AUCTION_PRICE}") && details.has("price")) {
-                                    impUrl = impUrl.replace("{AUCTION_PRICE}", details.getString("price"));
-                                }
-                                ad.imp_trackers.add(impUrl);
+                    eventtrackers = adm.getJSONArray("eventtrackers");
+                } else if (_native != null && _native.has("eventtrackers")) {
+                    eventtrackers = _native.getJSONArray("eventtrackers");
+                }
+                if (eventtrackers != null && eventtrackers.length() > 0) {
+                    ad.imp_trackers = new ArrayList<>();
+                    for (int count = 0; count < eventtrackers.length(); count++) {
+                        JSONObject eventtracker = eventtrackers.getJSONObject(count);
+                        if (eventtracker.has("url")) {
+                            String impUrl = eventtracker.getString("url");
+                            if (impUrl.contains("{AUCTION_PRICE}") && details.has("price")) {
+                                impUrl = impUrl.replace("{AUCTION_PRICE}", details.getString("price"));
                             }
+                            ad.imp_trackers.add(impUrl);
                         }
                     }
                 }
